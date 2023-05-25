@@ -1,6 +1,5 @@
-import requests
-
 from spider.douabn100 import etree
+from jiuku_download import *
 
 real_url = 'https://www.9ku.com/playlist.php'
 
@@ -34,6 +33,8 @@ def parse_res(response):
     to_url = data.xpath('//*[@class="topItem clearfix"]/ul/li/a[1]/@href')
     for i in range(len(to_url)):
         info.append([name[i], url.rstrip('/') + to_url[i]])
+    # 120条数据
+    # print(info)
     return info
 
 
@@ -44,42 +45,20 @@ def get_data(info):
     :return:
     """
     datas = []
-    for item in info:
-        num = item[1].split('/')[-1].split('.')[0]
+    for i in range(len(info)):
+        num = info[i][1].split('/')[-1].split('.')[0]
         data = {'ids': f'{num}'}
         datas.append(data)
     return datas
 
 
-def p(datas):
-    """
-    音乐下载链接地址
-    :param datas:
-    :return:
-    """
-    datas = get_data(parse_res(get_response(url, headers)))
-    mp3_list = []
-    for i in range(len(datas)):
-        response = requests.post(url=real_url, data=datas[i], headers=headers)
-        mp3_list.append(response.json()[0]['wma'])
-        print(response.json()[0]['wma'])
-    return mp3_list
-
-
-def save_mp3(mp3_info, mp3_list):
-    """
-    :param list: [歌曲名称、歌曲播放页面地址]
-    :return:
-    """
-    for i in range(len(mp3_info)):
-        mp_download = get_response(mp3_list[i], headers).content
-        with open('jiuku' + mp3_info[i][0] + '.mp3', 'wb') as f:
-            f.write(mp_download)
-            print(mp3_info[i][0], "保存成功")
+def download(mp3_info, datas):
+    for i in range(len(datas)):  # 120次
+        content = post_response(real_url, headers, datas[i])
+        save_mp3(mp3_info, content, i)
 
 
 if __name__ == '__main__':
     mp3_info = parse_res(get_response(url, headers))
     datas = get_data(mp3_info)
-    mp3_list = p(datas)
-    save_mp3(mp3_info, mp3_list)
+    download(mp3_info, datas)
