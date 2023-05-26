@@ -39,7 +39,7 @@ def parse_data(data):
 
 
 def save_data(info_list):
-    with open('birthrate.csv', mode='a', encoding='utf8', newline='') as f:
+    with open('../csv_file/birthrate.csv', mode='a', encoding='utf8', newline='') as f:
         w = csv.writer(f, delimiter=',')
         # w.writerow(['数值', '所属栏目', '排名', '地区', '时间', '指标'])
         for i in range(len(info_list)):

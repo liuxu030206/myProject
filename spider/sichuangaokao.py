@@ -55,7 +55,7 @@ def parse_data_2(data):
 
 
 def save_data(info_list):
-    with open('历年文科.csv', mode='w', encoding='utf8', newline='') as f:
+    with open('../csv_file/历年文科.csv', mode='w', encoding='utf8', newline='') as f:
         w = csv.writer(f, delimiter=',')
         w.writerow(['年份', '类别', '分数'])
         for i in range(len(info_list)):

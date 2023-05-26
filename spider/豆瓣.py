@@ -24,7 +24,7 @@ def get_data(url, headers,param):
 
 
 def save_data(json_data):
-    with open('movie.csv', mode='w', encoding='utf-8', newline='') as f:
+    with open('../csv_file/movie.csv', mode='w', encoding='utf-8', newline='') as f:
         wr = csv.writer(f, delimiter=',')
         wr.writerow(['电影名', '上映时间', '类型', '链接地址', '地区', '演员', '评分', '评价人数'])
         for i in range(len(json_data)):

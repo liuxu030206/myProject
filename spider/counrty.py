@@ -37,7 +37,7 @@ def parse_data(json_data):
 
 
 def save_data(info_list):
-    with open('govn.csv', mode='w', encoding='utf8', newline='') as f:
+    with open('../csv_file/govn.csv', mode='w', encoding='utf8', newline='') as f:
         w = csv.writer(f, delimiter=',')
         w.writerow(['指标', '地区', '数值', '时间', '所属栏目'])
         for i in range(len(info_list)):
